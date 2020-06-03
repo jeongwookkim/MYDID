@@ -156,6 +156,7 @@ router.post("/confirmsignin", async(req, res) => {
                     .post("https://mydid.kro.kr/auth/confirmsignin", send_param)
                     .then(returnData =>{
                         res.json({ message: returnData.data.message , key: returnData.data.key});
+                        req.session.myDIDLogin = '1';
                     })
                     //에러
                     .catch(err => {

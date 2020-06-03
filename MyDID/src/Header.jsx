@@ -9,13 +9,26 @@ const headers = { withCredentials: true };
 
 function Header() {
   const [buttonDisplay, setButtonDisplay] = useState("none");
+  const [logoutbutton, setlogoutbutton]= useState(false);
 
   useEffect(() => {
     getButtonStyle();
   }, []);
+  useEffect(()=> {
+    getLogoutStyle();
+  }, []); 
 
+  function getLogoutStyle(){
+    if (sessionStorage.getItem('auth') ==='0') {
+      setlogoutbutton("block");
+    }else if(sessionStorage.getItem('auth') ==='2'){
+      setlogoutbutton("block");
+    }else{
+      setlogoutbutton("none");
+    }    
+  }
   function getButtonStyle() {
-    if (sessionStorage.getItem('login_id')) {
+    if (sessionStorage.getItem('auth')==='2') {
       setButtonDisplay("block");
     } else {
       setButtonDisplay("none");
@@ -39,6 +52,11 @@ function Header() {
     display: buttonDisplay,
   };
 
+  const logoutstyle = {
+    margin: "0px 5px 0px 10px",
+    display: logoutbutton,
+  }; 
+
   const divStyle = {
     justifyContent: "space-around",
     backgroundColor: "black",
@@ -54,36 +72,26 @@ function Header() {
         ​ <Navbar.Brand href="/"></Navbar.Brand>
         ​ <Navbar.Toggle />​{" "}
         <Navbar.Collapse className="justify-content-end">
-          ​{" "}
           {/* <NavLink to="/mypage">
 ​      <Button style={buttonStyle} variant="primary">
 ​       회원정보 수정
 ​      </Button>
 ​     </NavLink> */}
-          ​{" "}
           <NavLink to="/">
-            ​{" "}
             <Button style={buttonStyle} variant="secondary">
-              ​ 글목록 ​{" "}
+              ​ 글목록
             </Button>
-            ​{" "}
           </NavLink>
-          ​{" "}
           <NavLink to="/boardWrite">
-            ​{" "}
             <Button style={buttonStyle} variant="secondary">
-              ​ 글쓰기 ​{" "}
+              ​ 글쓰기 
             </Button>
-            ​{" "}
           </NavLink>
-          ​{" "}
-          <Button style={buttonStyle} onClick={logout} variant="danger">
-            ​ 로그아웃 ​{" "}
+          ​<Button style={logoutstyle}  variant="danger" onClick={logout} >
+           ​ 로그아웃
           </Button>
-          ​{" "}
         </Navbar.Collapse>
       </Navbar>
-      {/* <Image src="./img/main.png" fluid /> */}
     </div>
   );
 }

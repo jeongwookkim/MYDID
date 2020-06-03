@@ -13,14 +13,7 @@ function BoardRow(props) {
   return (
     <tr>
       <td>
-        {/* <NavLink
-          to={{
-            pathname: "/board/detail",
-            query: { _id: props._id, writer: props.writer },
-          }}
-        > */}
           {props.createdAt.substring(0, 10)}
-        {/* </NavLink> */}
       </td>
       <td>
         <NavLink
@@ -36,14 +29,7 @@ function BoardRow(props) {
         </NavLink>
       </td>
       <td>
-        {/* <NavLink
-          to={{
-            pathname: "/board/detail",
-            query: { _id: props._id, writer: props.writer },
-          }}
-        > */}
           {props.name}
-        {/* </NavLink> */}
       </td>
     </tr>
   );

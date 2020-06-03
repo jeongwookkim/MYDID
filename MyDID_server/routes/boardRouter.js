@@ -21,28 +21,18 @@ const upload = multer({
   storage: storage,
 });
 
-// router.all("*", (req, res, next)=>{
-//   if(req.session.email!==undefined){
-//     if(req.session.auth!==undefined){
-//       next();
-//     }
-//     else{
-//       res.redirect("/");
-//     }
-//   }else{
-//       res.redirect("/");
-//   }
-// });
+router.all("*", (req, res, next)=>{
+  if(req.session._id && req.session.myDIDLogin){
+      next();
+  }else{
+      res.json({message:" 비정상적인 접근입니다. 다시 로그인 해주세요", logout: '1'});
+  }
+});
 
 router.post("/delete", async (req, res) => {
   try {
     const _id = req.body._id;
     const writer =req.body.writer;
-    console.log("bodyid : "+ _id);
-    console.log("writer : "+writer);
-    console.log("session id : "+req.session._id);
-    // const board = await Board.find({ _id }).populate("writer");
-    // console.log(board[0].writer._id);
     if(writer===req.session._id){
       await Board.remove({
         _id: _id,
@@ -59,13 +49,7 @@ router.post("/delete", async (req, res) => {
 
 router.post("/update", upload.single("imgFile"), async (req, res) => {
   try{    
-    
-    //console.log("update "+ req.body._id);
     const _id = req.body.boardId;//board 게시물 id
-    console.log(_id);
-    //console.log("session id : "+req.session._id);
-    //const board = await Board.find({ _id }).populate("writer");
-    //console.log("update board : "+ board[0]._id);
     const file = req.file;
 
       if (file == undefined) {
@@ -136,13 +120,7 @@ router.post("/getBoardList", async (req, res) => {
     const board = await Board.find({}, null, {
       sort: { createdAt: -1 },
     }).populate("writer");
-    console.log(board);
 
-    /*   const board = await Board.find(
-      { writer: _id }, null, {
-      sort: { createdAt: -1 },
-    } 
-    ); */
     res.json({ list: board });
   } catch (err) {
     console.log(err);
@@ -155,12 +133,8 @@ router.post("/detail", async (req, res) => {
     const _id = req.body._id;
     const board = await Board.find({ _id }).populate("writer");
     const comment = await Comment.find({board_id: _id}).sort({ createdAt: -1 }).populate("writer");
-    //console.log("comment : "+ comment);
-    //console.log("board id : "+ board[0]._id);
-    //console.log("board writer name : "+ comment[0].writer);
 
     res.json({ board, comment });
-    //console.log(comment[0].writer);
   } catch (err) {
     console.log(err);
     res.json({ message: false });
