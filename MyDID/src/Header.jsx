@@ -2,33 +2,40 @@ import React, { useState, useEffect } from "react";
 import { Navbar, Button, Image } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-import $ from "jquery";
 import {} from "jquery.cookie";
 axios.defaults.withCredentials = true;
 const headers = { withCredentials: true };
 
 function Header() {
   const [buttonDisplay, setButtonDisplay] = useState("none");
-  const [logoutbutton, setlogoutbutton]= useState(false);
+  const [buttonDisplay2, getlogoutButtonDisplay] = useState("none");
 
   useEffect(() => {
     getButtonStyle();
   }, []);
-  useEffect(()=> {
-    getLogoutStyle();
-  }, []); 
 
-  function getLogoutStyle(){
-    if (sessionStorage.getItem('auth') ==='0') {
-      setlogoutbutton("block");
-    }else if(sessionStorage.getItem('auth') ==='2'){
-      setlogoutbutton("block");
-    }else{
-      setlogoutbutton("none");
-    }    
+  useEffect(() => {
+    getlogoutButtonStyle();
+  }, []);
+
+  //로그아웃 버튼
+  function getlogoutButtonStyle() {
+    if (
+      sessionStorage.getItem("auth") === "0" ||
+      sessionStorage.getItem("auth") === "2"
+    ) {
+      getlogoutButtonDisplay("block");
+    } else {
+      getlogoutButtonDisplay("none");
+    }
   }
+
+  //글쓰기 글목록 버튼
   function getButtonStyle() {
-    if (sessionStorage.getItem('auth')==='2') {
+    if (
+      sessionStorage.getItem("auth") === undefined ||
+      sessionStorage.getItem("auth") === "2"
+    ) {
       setButtonDisplay("block");
     } else {
       setButtonDisplay("none");
@@ -37,7 +44,7 @@ function Header() {
 
   function logout() {
     axios
-      .get(process.env.REACT_APP_URL+"/member/logout", { headers })
+      .get("http://localhost:8080/member/logout", { headers })
       .then((returnData) => {
         if (returnData.data.message) {
           sessionStorage.clear();
@@ -52,10 +59,10 @@ function Header() {
     display: buttonDisplay,
   };
 
-  const logoutstyle = {
+  const buttonStyle2 = {
     margin: "0px 5px 0px 10px",
-    display: logoutbutton,
-  }; 
+    display: buttonDisplay2,
+  };
 
   const divStyle = {
     justifyContent: "space-around",
@@ -84,11 +91,12 @@ function Header() {
           </NavLink>
           <NavLink to="/boardWrite">
             <Button style={buttonStyle} variant="secondary">
-              ​ 글쓰기 
+              ​ 글쓰기
             </Button>
           </NavLink>
-          ​<Button style={logoutstyle}  variant="danger" onClick={logout} >
-           ​ 로그아웃
+          ​
+          <Button style={buttonStyle2} variant="danger" onClick={logout}>
+            ​ 로그아웃
           </Button>
         </Navbar.Collapse>
       </Navbar>
