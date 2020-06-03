@@ -158,6 +158,7 @@ function LoginForm() {
           window.location.reload();
         } else {
           alert(returnData.data.message);
+          window.location.reload();
         }
       })
       //에러
@@ -206,8 +207,7 @@ function LoginForm() {
     padding: 20,
   };
   return (
-    <>
-            
+    <>    
       <div style={divStyle}>
         <Jumbotron style={{ opacity: 0.9 }} className="float-right my-4 mr-5">
           <Form controlId="joinForm">
@@ -324,63 +324,7 @@ function LoginForm() {
           </div>
         </div>
       </section>
-      {/* <section className="page-section" id="services">
-        <div className="container" style={border}>
-          <h2 className="text-center mt-0">At Your Service</h2>
-          <hr className="divider my-4" />
-          <div className="row">
-            <div className="col-lg-3 col-md-6 text-center">
-              <div className="mt-5">
-                <i className="fas fa-4x fa-gem text-primary mb-4"></i>
-                <Image style={icon} src="/img/videoconference.png"></Image>
-                <h3 className="h4 mb-2" style={padding}>
-                  화상회의
-                </h3>
-                <p className="text-muted mb-0">
-                  간편하게<br></br> 화상회의를 할수있습니다!
-                </p>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6 text-center">
-              <div className="mt-5">
-                <i className="fas fa-4x fa-laptop-code text-primary mb-4"></i>
-                <Image style={icon} src="/img/chat.png"></Image>
-                <h3 className="h4 mb-2" style={padding}>
-                  채팅
-                </h3>
-                <p className="text-muted mb-0">
-                  회의와 함께 <br></br>채팅이 가능합니다!
-                </p>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6 text-center">
-              <div className="mt-5">
-                <i className="fas fa-4x fa-globe text-primary mb-4"></i>
-                <Image style={icon} src="/img/result.png"></Image>
-                <h3 className="h4 mb-2" style={padding}>
-                  문서교환
-                </h3>
-                <p className="text-muted mb-0">
-                  게시판
-                </p>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6 text-center">
-              <div className="mt-5">
-                <i className="fas fa-4x fa-heart text-primary mb-4"></i>
-                <Image style={icon} src="/img/free.png"></Image>
-                <h3 className="h4 mb-2" style={padding}>
-                  무료 사용
-                </h3>
-                <p className="text-muted mb-0">
-                  어려운 시기 우리 MOA는 <br></br>여러분에게 화상회의를
-                  <br></br>무료로 제공합니다.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
+      
       <Jumbotron style={ImgStyle2}></Jumbotron>
       <section className="page-section" id="services">
         <div className="container" style={border}>
@@ -512,13 +456,13 @@ function LoginForm() {
           <br></br>
         </div>
       </section>
-      <footer className="bg-light py-5">
+      {/* <footer className="bg-light py-5">
         <div className="container">
           <div className="small text-center text-muted">
             Copyright © 2020 - Start Bootstrap
           </div>
         </div>
-      </footer>
+      </footer> */}
     </>
   );
 }

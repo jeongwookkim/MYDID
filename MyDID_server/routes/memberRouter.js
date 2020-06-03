@@ -3,30 +3,12 @@ const router = express.Router();
 const User = require("../schemas/user");
 const crypto = require("crypto");
 
-/* //실명인증-가짜~
-router.post("/name", async (req, res) => {
-  try {
-    if (req.session._id == writer) {
-      res.json({ message: "삭제되었습니다." });
-    } else {
-      res.json({
-        message: "내가 쓴 댓글만 삭제할 수 있습니다.",
-        refresh: true,
-      });
-    }
-  } catch (err) {
-    console.log(err);
-    res.json({ message: false });
-  }
-}); */
-
 //회원가입
 router.post("/join", async (req, res) => {
   try {
     let obj = { email: req.body.email };
 
     let user = await User.findOne(obj);
-    console.log(user);
 
     if (user) {
       res.json({
@@ -157,7 +139,7 @@ router.post("/login", async (req, res) => {
             }
           );
         } else {
-          res.json({ message: "아이디나 패스워드가 일치하지 않습니다." });
+          res.json({ message: "아이디나 패스워드가 일치하지 않습니다." , logout: '1'});
         }
       }
     });

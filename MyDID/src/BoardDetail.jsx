@@ -47,7 +47,6 @@ function RemoveModifyBtn(props) {
 }
 //댓글 ROW 컴포넌트
 function CommentRow(props) {
-  console.log(props.comment.writer.name);
   return (
     <tr>
       <td>{props.comment.writer.name}</td>
@@ -99,29 +98,12 @@ function BoardDetail(props) {
   const [flag, setFlag] = useState(true);
   const commentTitle = useRef();
 
-  const getCommentList = useCallback(() => {
-    axios
-      .post(process.env.REACT_APP_URL+"/board/detail", "")
-      .then(async (returnData) => {
-        if (returnData.data.comment.length > 0) {
-          setComments(returnData.data.comment);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
   //게시글 상세정보 가져오기
   const getDetail = useCallback(() => {
     const send_param = {
       headers,
       _id: props.location.query._id,
     };
-    // const marginBottom = {
-    //   marginBottom: 5,
-    //   width: 90,
-    // };
     const imageStyle = {
       textAlign : "center"
     }
@@ -132,7 +114,6 @@ function BoardDetail(props) {
       .then(async (returnData) => {
         if (returnData.data.board[0]) {
           if (returnData.data.comment.length > 0) {
-            console.log(returnData.data.comment.length);
             const comment = returnData.data.comment;
             await setComments(comment);
           }
@@ -166,7 +147,7 @@ function BoardDetail(props) {
                     deleteBoard={deleteBoard.bind(null, props.location.query._id, props.location.query.writer)}
                   />
                 ) : (
-                  ""
+                  <></>
                 )}
                 </tbody>
               </Table>
@@ -225,8 +206,6 @@ function BoardDetail(props) {
 
   //게시글 삭제
   const deleteBoard = (_id, writer) => {
-
-    //alert(writer);
     const send_param = {
       headers,
       _id,
@@ -287,10 +266,22 @@ function BoardDetail(props) {
     axios.post(process.env.REACT_APP_URL+"/comment/writecomment", send_param)
     .then((returnData)=>{
       alert(returnData.data.message);
+      commentTitle.current.value = "";
+
+      return axios
+      .post(process.env.REACT_APP_URL+"/board/detail", send_param)
+      .then(async (returnData) => {
+        console.log(returnData)
+        if (returnData.data.comment.length > 0) {
+          setComments(returnData.data.comment);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     })
 
-    getCommentList();
-  }, [props.location.query, getCommentList]);
+  }, [props.location.query]);
 
   const titleStyle = {
     marginBottom: 5,
@@ -305,7 +296,6 @@ function BoardDetail(props) {
   };
 
   const divStyle2 = {
-    //justifyContent: "space-around",
     display: "flex",
     //width: 800,
     margin: 50,
