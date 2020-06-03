@@ -2,7 +2,6 @@ import React, { useEffect, useRef, Component } from "react";
 import { Jumbotron, Form, Button, Image } from "react-bootstrap";
 import { loadReCaptcha, ReCaptcha } from "react-recaptcha-v3";
 import axios from "axios";
-import $ from "jquery";
 import {} from "jquery.cookie";
 axios.defaults.withCredentials = true;
 const headers = { withCredentials: true };
@@ -92,7 +91,7 @@ function LoginForm() {
     };
 
     axios
-      .post(process.env.REACT_APP_URL+"/member/join", send_param)
+      .post(process.env.REACT_APP_URL + "/member/join", send_param)
       //정상 수행
       .then((returnData) => {
         if (returnData.data.message) {
@@ -145,15 +144,15 @@ function LoginForm() {
     };
 
     axios
-      .post(process.env.REACT_APP_URL+"/member/login", send_param)
+      .post(process.env.REACT_APP_URL + "/member/login", send_param)
 
       //정상 수행
       .then((returnData) => {
         if (returnData.data.message) {
           // console.log("login_id:" + returnData.data._id);
-          sessionStorage.setItem('login_id', returnData.data._id);
-          sessionStorage.setItem('login_email', returnData.data.email);
-          sessionStorage.setItem('auth', returnData.data.auth);
+          sessionStorage.setItem("login_id", returnData.data._id);
+          sessionStorage.setItem("login_email", returnData.data.email);
+          sessionStorage.setItem("auth", returnData.data.auth);
           alert(returnData.data.message);
           window.location.reload();
         } else {
@@ -207,7 +206,8 @@ function LoginForm() {
     padding: 20,
   };
   return (
-    <>    
+    <>
+          
       <div style={divStyle}>
         <Jumbotron style={{ opacity: 0.9 }} className="float-right my-4 mr-5">
           <Form controlId="joinForm">
@@ -324,7 +324,6 @@ function LoginForm() {
           </div>
         </div>
       </section>
-      
       <Jumbotron style={ImgStyle2}></Jumbotron>
       <section className="page-section" id="services">
         <div className="container" style={border}>
